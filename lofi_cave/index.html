@@ -1,14 +1,30 @@
 <!DOCTYPE html>
-<html>
+<html lang="ro">
 <head>
-    <title>LofiCave</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LofiCave • LLM Stations</title>
     <script src="https://www.youtube.com/iframe_api"></script>
-  <link rel="stylesheet" href="style.css">
-
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Note: The 'src' attribute is removed as it will be set by the YouTube API script -->
-    <iframe id="youtube-player" width="560" height="315" frameborder="0" allowfullscreen></iframe>
+    <div id="anime-bg"></div>
+    <iframe id="youtube-player" frameborder="0" allowfullscreen></iframe>
+
+    <!-- TAP TO START -->
+    <div id="start-overlay">
+        <div class="start-content">
+            <h1>TAP TO START</h1>
+            <p>Japanese anime lofi • LLM stations 🎧</p>
+            <p class="hint">what is Grok listening to right now?</p>
+        </div>
+    </div>
+
+    <!-- HUD -->
+    <div id="hud">
+        <div id="channel-name"></div>
+        <div id="change-btn">next station →</div>
+    </div>
 
     <script src="script.js"></script>
 </body>

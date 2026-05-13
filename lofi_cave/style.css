@@ -1,30 +1,91 @@
-/* Basic Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-    font-family: 'Arial', sans-serif;
-    background-color: #f0f0f0; /* Light grey background for a soft look */
-    color: #333; /* Dark grey text for readability */
-    line-height: 1.6;
+    background: #0a0a0a;
+    font-family: system-ui, -apple-system, sans-serif;
+    overflow: hidden;
+    height: 100vh;
+    color: white;
+}
+
+#anime-bg {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-size: cover;
+    background-position: center;
+    z-index: -2;
+    opacity: 0.85;
+    transition: background-image 1.2s ease-in-out;
+    filter: brightness(0.85) contrast(1.1);
+}
+
+#youtube-player {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    border: none;
+}
+
+#start-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(10, 10, 10, 0.94);
     display: flex;
-    justify-content: center;
     align-items: center;
-    height: 100vh; /* Full viewport height */
-    padding: 20px;
+    justify-content: center;
+    z-index: 100;
+    cursor: pointer;
+    text-align: center;
 }
 
-iframe {
-    border-radius: 10px; /* Rounded corners for the iframe */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Soft shadow for depth */
-    transition: transform 0.3s ease; /* Smooth transition for hover effect */
+.start-content h1 {
+    font-size: 4.8rem;
+    letter-spacing: 10px;
+    margin-bottom: 20px;
+    animation: pulse 2s infinite;
 }
 
-iframe:hover {
-    transform: scale(1.05); /* Slightly enlarge the iframe on hover */
+.start-content p { font-size: 1.5rem; opacity: 0.9; }
+.hint { margin-top: 50px; font-size: 1.2rem; opacity: 0.7; }
+
+@keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
+
+#hud {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.65);
+    backdrop-filter: blur(12px);
+    padding: 14px 32px;
+    border-radius: 50px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    z-index: 50;
+    font-size: 1.15rem;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.5);
 }
 
-/* Add custom styles below for additional elements as you expand your site */
+#channel-name strong { color: #ffcc00; }
+
+#change-btn {
+    background: rgba(255,255,255,0.15);
+    padding: 8px 22px;
+    border-radius: 50px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+#change-btn:hover { background: rgba(255,255,255,0.35); transform: scale(1.08); }
+
+/* mobile */
+@media (max-width: 768px) {
+    .start-content h1 { font-size: 3.2rem; }
+    #hud { padding: 12px 24px; font-size: 1.05rem; }
+}
