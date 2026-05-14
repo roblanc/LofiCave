@@ -1,0 +1,3 @@
+[build]
+  publish = "lofi_cave"
+  command = ""
