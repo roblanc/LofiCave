@@ -3,25 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="LofiCave — 24/7 lofi stations. Pick a room and start listening.">
+    <meta name="description" content="LofiCave — 24/7 ad-free lofi stations. Pick a room and start listening.">
     <title>LofiCave • lofi stations 🎧</title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body>
-    <!-- fullscreen video background (player injected here by the IFrame API) -->
-    <div id="video-wrap"><div id="youtube-player"></div></div>
-    <!-- darkens edges + hides youtube chrome peeking through -->
+    <!-- animated night-sky background (canvas, no video, no ads) -->
+    <canvas id="bg" aria-hidden="true"></canvas>
     <div id="vignette"></div>
+
+    <!-- direct ad-free audio stream (no YouTube, no pre-roll ads) -->
+    <audio id="audio" preload="none"></audio>
 
     <!-- TAP TO START (browser autoplay policy needs one gesture) -->
     <div id="start-overlay">
         <div class="start-content">
             <h1>TAP TO START</h1>
             <p>loficave • 24/7 lofi stations 🎧</p>
-            <p class="hint">pick a room and start listening</p>
+            <p class="hint">ad-free • pick a room and start listening</p>
         </div>
     </div>
 
@@ -37,7 +38,7 @@
     <!-- bottom control bar, lofi.cafe style -->
     <footer id="hud">
         <button id="prev-btn" aria-label="previous station">|◀</button>
-        <button id="play-btn" aria-label="play or pause">❚❚</button>
+        <button id="play-btn" aria-label="play or pause">▶</button>
         <button id="next-btn" aria-label="next station">▶|</button>
         <div id="channel-name"><span class="idle">loading…</span></div>
         <div id="vol-wrap">
