@@ -1,30 +1,52 @@
 <!DOCTYPE html>
-<html lang="ro">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LofiCave • LLM Stations</title>
-    <script src="https://www.youtube.com/iframe_api"></script>
+    <meta name="description" content="LofiCave — 24/7 lofi stations. Pick a room and start listening.">
+    <title>LofiCave • lofi stations 🎧</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <script src="https://www.youtube.com/iframe_api"></script>
 </head>
 <body>
-    <div id="anime-bg"></div>
-    <iframe id="youtube-player" frameborder="0" allowfullscreen></iframe>
+    <!-- fullscreen video background (player injected here by the IFrame API) -->
+    <div id="video-wrap"><div id="youtube-player"></div></div>
+    <!-- darkens edges + hides youtube chrome peeking through -->
+    <div id="vignette"></div>
 
-    <!-- TAP TO START -->
+    <!-- TAP TO START (browser autoplay policy needs one gesture) -->
     <div id="start-overlay">
         <div class="start-content">
             <h1>TAP TO START</h1>
-            <p>Japanese anime lofi • LLM stations 🎧</p>
-            <p class="hint">what is Grok listening to right now?</p>
+            <p>loficave • 24/7 lofi stations 🎧</p>
+            <p class="hint">pick a room and start listening</p>
         </div>
     </div>
 
-    <!-- HUD -->
-    <div id="hud">
-        <div id="channel-name"></div>
-        <div id="change-btn">next station →</div>
-    </div>
+    <!-- top bar -->
+    <header id="topbar">
+        <div id="logo">loficave 🎧</div>
+        <button id="stations-btn" aria-label="choose station">stations</button>
+    </header>
+
+    <!-- station picker -->
+    <nav id="station-picker" class="hidden" aria-label="stations"></nav>
+
+    <!-- bottom control bar, lofi.cafe style -->
+    <footer id="hud">
+        <button id="prev-btn" aria-label="previous station">|◀</button>
+        <button id="play-btn" aria-label="play or pause">❚❚</button>
+        <button id="next-btn" aria-label="next station">▶|</button>
+        <div id="channel-name"><span class="idle">loading…</span></div>
+        <div id="vol-wrap">
+            <button id="mute-btn" aria-label="mute or unmute">🔊</button>
+            <input id="vol" type="range" min="0" max="100" value="80" aria-label="volume">
+        </div>
+    </footer>
+
+    <div id="keys-hint">space play/pause • ←/→ stations • m mute</div>
 
     <script src="script.js"></script>
 </body>
