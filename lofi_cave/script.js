@@ -70,7 +70,7 @@ function playAudio() {
     const p = audio.play();
     if (p && p.catch) p.catch((err) => {
         console.warn("playback blocked:", err && err.name);
-        setStatus("tap to start 🔊");
+        setStatus("click to play 🔊");
     });
     updatePlayIcon();
 }
@@ -317,11 +317,17 @@ document.addEventListener("visibilitychange", () => {
 
 /* ---------- events ---------- */
 
-$("start-overlay").addEventListener("click", () => {
-    $("start-overlay").style.display = "none";
+/* browsers block sound until a user gesture, so start on the first
+   interaction anywhere (no "tap to start" overlay). if that gesture is
+   on a control (play/volume), don't autoplay — its own handler takes over. */
+function kickstart(e) {
+    if (started) return;
     started = true;
-    loadStation(currentIndex, true);
-});
+    const onControl = e && e.target && e.target.closest &&
+        e.target.closest("button, #vol-segs");
+    loadStation(currentIndex, !onControl);
+}
+window.addEventListener("pointerdown", kickstart, { once: true });
 
 $("play-btn").addEventListener("click", togglePlay);
 $("next-btn").addEventListener("click", () => loadStation(currentIndex + 1, true));
@@ -345,10 +351,7 @@ $("vol-segs").addEventListener("keydown", (e) => {
 
 document.addEventListener("keydown", (e) => {
     if (!started) {
-        if (e.code === "Space" || e.code === "Enter") {
-            e.preventDefault();
-            $("start-overlay").click();
-        }
+        kickstart(e);
         return;
     }
     if (e.code === "Space") { e.preventDefault(); togglePlay(); }

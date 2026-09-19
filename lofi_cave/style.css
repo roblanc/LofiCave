@@ -95,38 +95,6 @@ body {
     background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,.6) 100%);
 }
 
-/* ---------- start overlay ---------- */
-
-#start-overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(5, 5, 10, 0.82);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
-    cursor: pointer;
-    text-align: center;
-    padding: 24px;
-    backdrop-filter: blur(3px);
-}
-
-.start-content h1 {
-    font-size: clamp(3rem, 10vw, 5.5rem);
-    letter-spacing: 10px;
-    font-weight: 400;
-    animation: pulse 2s infinite;
-    text-shadow: 0 0 24px var(--accent);
-}
-
-.start-content p { font-size: 1.6rem; opacity: .85; }
-.start-content .hint { font-size: 1.3rem; opacity: .55; margin-top: 8px; }
-
-@keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: .35; }
-}
-
 /* ---------- top bar ---------- */
 
 #topbar {
