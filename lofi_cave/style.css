@@ -4,6 +4,8 @@
     --accent: #ffb86b;
     --sky1: #0b1e14;
     --sky2: #173d24;
+    --term-green: #a6ff7d;
+    --term-red: #ff6b81;
 }
 
 html, body { height: 100%; }
@@ -208,86 +210,104 @@ body {
 .st-name { font-size: 1.4rem; letter-spacing: 1px; }
 .st-desc { font-size: 1.05rem; opacity: .6; text-align: center; }
 
-/* ---------- bottom-left hud: chunky pixel panel, lofi.cafe style ---------- */
+/* ---------- bottom-left hud: terminal phosphor, lofi.cafe style ----------
+   no panel, just glowing text over the background. green = --term-green,
+   actions/links = --term-red. */
 
 #hud {
     position: fixed;
-    bottom: 20px;
-    left: 20px;
+    bottom: 22px;
+    left: 24px;
     z-index: 50;
     display: flex;
-    align-items: center;
-    gap: 10px;
-    background: rgba(8, 8, 14, 0.92);
-    border: 3px solid #fff;
-    border-radius: 0;
-    box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.85);
-    padding: 10px 14px;
+    flex-direction: column;
+    gap: 8px;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+    padding: 0;
     max-width: 94vw;
+    color: var(--term-green);
+    text-shadow: 0 0 8px rgba(166, 255, 125, 0.55), 2px 2px 0 #000;
+}
+
+#transport {
+    display: flex;
+    align-items: center;
+    gap: 16px;
 }
 
 #hud button {
     font-family: inherit;
-    color: #fff;
-    background: #1a1a24;
-    border: 3px solid rgba(255, 255, 255, 0.45);
+    color: var(--term-green);
+    background: transparent;
+    border: none;
+    box-shadow: none;
     border-radius: 0;
-    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.85);
-    font-size: 1.4rem;
-    min-width: 50px;
-    height: 46px;
-    padding: 0 10px;
+    font-size: 1.7rem;
+    min-width: 0;
+    height: auto;
+    padding: 0 2px;
     cursor: pointer;
     line-height: 1;
-    transition: transform .05s, box-shadow .05s, background .15s;
+    text-shadow: 0 0 8px rgba(166, 255, 125, 0.55), 2px 2px 0 #000;
 }
 
-#hud button:hover { background: #2c2c3d; border-color: #fff; }
+#hud button:hover { color: #fff; }
+#hud button:active { transform: none; box-shadow: none; }
 
-#hud button:active {
-    transform: translate(3px, 3px);
-    box-shadow: 0 0 0 rgba(0, 0, 0, 0.85);
+/* segmented block volume: 10 clickable blocks */
+#vol-segs {
+    display: flex;
+    gap: 4px;
+    cursor: pointer;
+    font-size: 1.7rem;
+    line-height: 1;
+    user-select: none;
 }
 
-#play-btn { border-color: var(--accent); }
+#vol-segs span { color: rgba(166, 255, 125, 0.22); text-shadow: 2px 2px 0 #000; }
+#vol-segs span.on { color: var(--term-green); text-shadow: 0 0 8px rgba(166, 255, 125, 0.55), 2px 2px 0 #000; }
+
+#nowline {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    font-size: 1.6rem;
+    white-space: nowrap;
+}
+
+#eq { letter-spacing: 1px; }
+
+#change-link {
+    font-size: 1.6rem !important;
+    color: var(--term-red) !important;
+    text-shadow: 0 0 8px rgba(255, 107, 129, 0.55), 2px 2px 0 #000 !important;
+}
+
+#change-link:hover { text-decoration: underline; }
+
+#chan-box { color: var(--term-green); }
 
 #channel-name {
-    font-size: 1.5rem;
-    line-height: 1.05;
+    font-size: inherit;
+    line-height: inherit;
     white-space: nowrap;
-    text-shadow: 2px 2px 0 #000;
-    min-width: 140px;
-    text-align: center;
+    text-shadow: inherit;
+    min-width: 0;
+    text-align: left;
 }
 
+#channel-name strong { font-weight: 400; }
+
 #channel-name .desc {
-    display: block;
-    font-size: 1.1rem;
-    opacity: .6;
+    display: inline;
+    font-size: inherit;
+    opacity: .85;
+    margin-left: 10px;
 }
 
 #channel-name .idle { opacity: .6; }
-
-#vol-wrap {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    border-left: 3px solid rgba(255, 255, 255, 0.25);
-    padding-left: 10px;
-    margin-left: 2px;
-}
-
-#vol {
-    width: 90px;
-    accent-color: var(--accent);
-    cursor: pointer;
-}
-
-/* square pixel thumb */
-#vol::-webkit-slider-thumb {
-    border-radius: 0;
-    cursor: pointer;
-}
 
 #keys-hint {
     position: fixed;
@@ -304,10 +324,11 @@ body {
 
 @media (max-width: 640px) {
     #channel-name .desc { display: none; }
-    #channel-name { font-size: 1.3rem; min-width: 0; }
-    #vol { width: 56px; }
-    #hud { gap: 8px; padding: 8px 10px; bottom: 14px; left: 14px; box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.85); }
-    #hud button { min-width: 42px; height: 40px; font-size: 1.2rem; box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.85); }
+    #hud { bottom: 14px; left: 14px; }
+    #hud button { font-size: 1.5rem; }
+    #vol-segs { font-size: 1.4rem; }
+    #nowline { font-size: 1.35rem; gap: 8px; }
+    #change-link { font-size: 1.35rem !important; }
     #keys-hint { display: none; }
     #station-picker { top: 60px; }
     .station-card { min-width: 100px; padding: 8px 10px; }

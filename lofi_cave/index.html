@@ -40,15 +40,18 @@
     <!-- station picker -->
     <nav id="station-picker" class="hidden" aria-label="stations"></nav>
 
-    <!-- bottom control bar, lofi.cafe style -->
+    <!-- bottom control bar: terminal phosphor style, like lofi.cafe -->
     <footer id="hud">
-        <button id="prev-btn" aria-label="previous station">|◀</button>
-        <button id="play-btn" aria-label="play or pause">▶</button>
-        <button id="next-btn" aria-label="next station">▶|</button>
-        <div id="channel-name"><span class="idle">loading…</span></div>
-        <div id="vol-wrap">
-            <button id="mute-btn" aria-label="mute or unmute">🔊</button>
-            <input id="vol" type="range" min="0" max="100" value="80" aria-label="volume">
+        <div id="transport">
+            <button id="play-btn" aria-label="play or pause">❚❚</button>
+            <button id="prev-btn" aria-label="previous station">|◀</button>
+            <button id="next-btn" aria-label="next station">▶|</button>
+            <div id="vol-segs" role="slider" aria-label="volume" aria-valuemin="0" aria-valuemax="10" tabindex="0"></div>
+        </div>
+        <div id="nowline">
+            <span id="eq" aria-hidden="true">▂▄▆</span>
+            <button id="change-link">click to change &gt;</button>
+            <span id="chan-box">[<span id="channel-name"><span class="idle">loading…</span></span>]</span>
         </div>
     </footer>
 

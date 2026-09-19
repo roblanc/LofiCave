@@ -161,7 +161,40 @@ function updatePlayIcon() {
 }
 
 function updateMuteIcon() {
-    $("mute-btn").textContent = audio.muted ? "🔇" : "🔊";
+    renderVol();
+}
+
+/* segmented block volume (10 blocks, click to set), lofi.cafe style */
+const VOL_SEGS = 10;
+
+function setVol(v, muted) {
+    audio.volume = Math.min(1, Math.max(0, v));
+    if (typeof muted === "boolean") audio.muted = muted;
+    else if (v > 0 && audio.muted) audio.muted = false;
+    try {
+        localStorage.setItem("loficave-vol", String(Math.round(audio.volume * 100)));
+        localStorage.setItem("loficave-muted", audio.muted ? "1" : "0");
+    } catch (err) { /* ignore */ }
+    renderVol();
+}
+
+function renderVol() {
+    const el = $("vol-segs");
+    if (!el) return;
+    el.innerHTML = "";
+    const level = audio.muted ? 0 : Math.round(audio.volume * VOL_SEGS);
+    for (let i = 1; i <= VOL_SEGS; i++) {
+        const s = document.createElement("span");
+        s.textContent = "▮";
+        if (i <= level) s.className = "on";
+        s.addEventListener("click", () => setVol(i / VOL_SEGS));
+        el.appendChild(s);
+    }
+    el.setAttribute("aria-valuenow", String(level));
+}
+
+function toggleMute() {
+    setVol(audio.volume, !audio.muted);
 }
 
 function updateMediaSession() {
@@ -299,21 +332,15 @@ $("stations-btn").addEventListener("click", () => {
     $("station-picker").classList.toggle("hidden");
 });
 
-$("mute-btn").addEventListener("click", () => {
-    audio.muted = !audio.muted;
-    try { localStorage.setItem("loficave-muted", audio.muted ? "1" : "0"); } catch (e) { /* ignore */ }
-    updateMuteIcon();
+$("change-link").addEventListener("click", () => {
+    renderPicker();
+    $("station-picker").classList.toggle("hidden");
 });
 
-$("vol").addEventListener("input", (e) => {
-    const v = parseInt(e.target.value, 10);
-    audio.volume = Math.min(1, Math.max(0, v / 100));
-    if (v > 0 && audio.muted) {
-        audio.muted = false;
-        try { localStorage.setItem("loficave-muted", "0"); } catch (err) { /* ignore */ }
-    }
-    try { localStorage.setItem("loficave-vol", String(v)); } catch (err) { /* ignore */ }
-    updateMuteIcon();
+$("vol-segs").addEventListener("keydown", (e) => {
+    const step = 1 / VOL_SEGS;
+    if (e.code === "ArrowRight" || e.code === "ArrowUp") { e.preventDefault(); e.stopPropagation(); setVol(audio.volume + step); }
+    else if (e.code === "ArrowLeft" || e.code === "ArrowDown") { e.preventDefault(); e.stopPropagation(); setVol(audio.volume - step); }
 });
 
 document.addEventListener("keydown", (e) => {
@@ -327,7 +354,7 @@ document.addEventListener("keydown", (e) => {
     if (e.code === "Space") { e.preventDefault(); togglePlay(); }
     else if (e.code === "ArrowRight") { loadStation(currentIndex + 1, true); }
     else if (e.code === "ArrowLeft") { loadStation(currentIndex - 1, true); }
-    else if (e.key === "m" || e.key === "M") { $("mute-btn").click(); }
+    else if (e.key === "m" || e.key === "M") { toggleMute(); }
 });
 
 // initial paint (no autoplay until the user taps)
@@ -340,7 +367,7 @@ document.addEventListener("keydown", (e) => {
     } catch (e) { /* ignore */ }
     audio.volume = vol / 100;
     audio.muted = muted;
-    $("vol").value = vol;
+    renderVol();
     applyTheme(stations[currentIndex].theme);
     loadRoomGif(stations[currentIndex]);
     sizeCanvas();
