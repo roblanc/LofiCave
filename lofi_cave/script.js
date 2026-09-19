@@ -41,10 +41,28 @@ function loadStation(index, autoplay) {
     retriedCurrent = false;
     applyTheme(st.theme);
     renderStation();
+    loadRoomGif(st);
     audio.src = st.stream;
     audio.load();
     if (autoplay || (started && wantPlay)) playAudio();
     updateMediaSession();
+}
+
+/* per-room looping gif (gifs/<station-id>.gif), lofi.cafe style.
+   probe first so a missing file never shows a broken image —
+   canvas night-sky stays as the fallback background. */
+const gifEl = $("room-gif");
+
+function loadRoomGif(st) {
+    gifEl.classList.remove("on");
+    const probe = new Image();
+    probe.onload = () => {
+        if (stations[currentIndex].id !== st.id) return; // user switched meanwhile
+        gifEl.src = "gifs/" + st.id + ".gif";
+        gifEl.classList.add("on");
+    };
+    probe.onerror = () => { /* keep canvas fallback */ };
+    probe.src = "gifs/" + st.id + ".gif";
 }
 
 function playAudio() {
@@ -324,6 +342,7 @@ document.addEventListener("keydown", (e) => {
     audio.muted = muted;
     $("vol").value = vol;
     applyTheme(stations[currentIndex].theme);
+    loadRoomGif(stations[currentIndex]);
     sizeCanvas();
     renderPicker();
     renderStation();

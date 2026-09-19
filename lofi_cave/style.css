@@ -28,11 +28,66 @@ body {
     display: block;
 }
 
+/* optional per-room looping gif, sits above the canvas, below the crt stack.
+   shown only when gifs/<station-id>.gif exists (see loadRoomGif). */
+#room-gif {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+    z-index: 1;
+    opacity: 0;
+    transition: opacity .8s ease;
+    pointer-events: none;
+}
+
+#room-gif.on { opacity: 1; }
+
+/* crt scanlines + faint rgb grille, like lofi.cafe's #crt-lines */
+#crt-lines {
+    position: fixed;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background:
+        repeating-linear-gradient(
+            to bottom,
+            transparent 0px,
+            transparent 2px,
+            rgba(0, 0, 0, 0.28) 3px,
+            rgba(0, 0, 0, 0.28) 4px
+        );
+    opacity: .55;
+}
+
+#crt-lines::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+        to right,
+        rgba(255, 0, 80, 0.05) 0px,
+        rgba(0, 255, 120, 0.05) 1px,
+        rgba(0, 80, 255, 0.05) 2px,
+        transparent 3px
+    );
+}
+
+/* flat darkener so text stays readable over bright gifs */
+#darken {
+    position: fixed;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    background: rgba(2, 2, 12, 0.38);
+}
+
 /* darken edges for readability */
 #vignette {
     position: fixed;
     inset: 0;
-    z-index: 1;
+    z-index: 4;
     pointer-events: none;
     background: radial-gradient(ellipse at center, transparent 50%, rgba(0,0,0,.6) 100%);
 }
@@ -152,40 +207,48 @@ body {
 .st-name { font-size: 1.4rem; letter-spacing: 1px; }
 .st-desc { font-size: 1.05rem; opacity: .6; text-align: center; }
 
-/* ---------- bottom hud (lofi.cafe style pill) ---------- */
+/* ---------- bottom-left hud: chunky pixel panel, lofi.cafe style ---------- */
 
 #hud {
     position: fixed;
-    bottom: 26px;
-    left: 50%;
-    transform: translateX(-50%);
+    bottom: 20px;
+    left: 20px;
     z-index: 50;
     display: flex;
     align-items: center;
-    gap: 14px;
-    background: rgba(0,0,0,.62);
-    backdrop-filter: blur(10px);
-    border: 2px solid rgba(255,255,255,.18);
-    border-radius: 50px;
-    padding: 10px 22px;
+    gap: 10px;
+    background: rgba(8, 8, 14, 0.92);
+    border: 3px solid #fff;
+    border-radius: 0;
+    box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.85);
+    padding: 10px 14px;
     max-width: 94vw;
 }
 
 #hud button {
     font-family: inherit;
     color: #fff;
-    background: rgba(255,255,255,.14);
-    border: none;
-    border-radius: 50px;
+    background: #1a1a24;
+    border: 3px solid rgba(255, 255, 255, 0.45);
+    border-radius: 0;
+    box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.85);
     font-size: 1.4rem;
-    width: 52px;
-    height: 44px;
+    min-width: 50px;
+    height: 46px;
+    padding: 0 10px;
     cursor: pointer;
     line-height: 1;
-    transition: background .2s;
+    transition: transform .05s, box-shadow .05s, background .15s;
 }
 
-#hud button:hover { background: var(--accent); color: #000; }
+#hud button:hover { background: #2c2c3d; border-color: #fff; }
+
+#hud button:active {
+    transform: translate(3px, 3px);
+    box-shadow: 0 0 0 rgba(0, 0, 0, 0.85);
+}
+
+#play-btn { border-color: var(--accent); }
 
 #channel-name {
     font-size: 1.5rem;
@@ -204,7 +267,14 @@ body {
 
 #channel-name .idle { opacity: .6; }
 
-#vol-wrap { display: flex; align-items: center; gap: 8px; }
+#vol-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-left: 3px solid rgba(255, 255, 255, 0.25);
+    padding-left: 10px;
+    margin-left: 2px;
+}
 
 #vol {
     width: 90px;
@@ -212,11 +282,16 @@ body {
     cursor: pointer;
 }
 
+/* square pixel thumb */
+#vol::-webkit-slider-thumb {
+    border-radius: 0;
+    cursor: pointer;
+}
+
 #keys-hint {
     position: fixed;
-    bottom: 6px;
-    left: 50%;
-    transform: translateX(-50%);
+    bottom: 8px;
+    right: 16px;
     z-index: 50;
     font-size: 1.05rem;
     opacity: .45;
@@ -229,9 +304,9 @@ body {
 @media (max-width: 640px) {
     #channel-name .desc { display: none; }
     #channel-name { font-size: 1.3rem; min-width: 0; }
-    #vol { width: 60px; }
-    #hud { gap: 8px; padding: 8px 14px; bottom: 18px; }
-    #hud button { width: 44px; height: 40px; font-size: 1.2rem; }
+    #vol { width: 56px; }
+    #hud { gap: 8px; padding: 8px 10px; bottom: 14px; left: 14px; box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.85); }
+    #hud button { min-width: 42px; height: 40px; font-size: 1.2rem; box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.85); }
     #keys-hint { display: none; }
     #station-picker { top: 60px; }
     .station-card { min-width: 100px; padding: 8px 10px; }
