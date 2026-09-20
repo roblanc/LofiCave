@@ -178,18 +178,20 @@ body {
 .st-name { font-size: 1.4rem; letter-spacing: 1px; }
 .st-desc { font-size: 1.05rem; opacity: .6; text-align: center; }
 
-/* ---------- bottom-left hud: terminal phosphor, lofi.cafe style ----------
+/* ---------- centered hud: terminal phosphor, lofi.cafe style ----------
    no panel, just glowing text over the background. green = --term-green,
    actions/links = --term-red. */
 
 #hud {
     position: fixed;
-    bottom: 22px;
-    left: 24px;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 50;
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    align-items: center;
+    gap: 6px;
     background: transparent;
     border: none;
     box-shadow: none;
@@ -202,7 +204,7 @@ body {
 #transport {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 12px;
 }
 
 #hud button {
@@ -212,7 +214,7 @@ body {
     border: none;
     box-shadow: none;
     border-radius: 0;
-    font-size: 1.7rem;
+    font-size: 1.25rem;
     min-width: 0;
     height: auto;
     padding: 0 2px;
@@ -227,9 +229,9 @@ body {
 /* segmented block volume: 10 clickable blocks */
 #vol-segs {
     display: flex;
-    gap: 4px;
+    gap: 3px;
     cursor: pointer;
-    font-size: 1.7rem;
+    font-size: 1.25rem;
     line-height: 1;
     user-select: none;
 }
@@ -240,15 +242,15 @@ body {
 #nowline {
     display: flex;
     align-items: baseline;
-    gap: 12px;
-    font-size: 1.6rem;
+    gap: 10px;
+    font-size: 1.2rem;
     white-space: nowrap;
 }
 
 #eq { letter-spacing: 1px; }
 
 #change-link {
-    font-size: 1.6rem !important;
+    font-size: 1.2rem !important;
     color: var(--term-red) !important;
     text-shadow: 0 0 8px rgba(255, 107, 129, 0.55), 2px 2px 0 #000 !important;
 }
@@ -292,11 +294,11 @@ body {
 
 @media (max-width: 640px) {
     #channel-name .desc { display: none; }
-    #hud { bottom: 14px; left: 14px; }
-    #hud button { font-size: 1.5rem; }
-    #vol-segs { font-size: 1.4rem; }
-    #nowline { font-size: 1.35rem; gap: 8px; }
-    #change-link { font-size: 1.35rem !important; }
+    #hud { bottom: 14px; left: 50%; }
+    #hud button { font-size: 1.1rem; }
+    #vol-segs { font-size: 1.1rem; }
+    #nowline { font-size: 1.05rem; gap: 6px; }
+    #change-link { font-size: 1.05rem !important; }
     #keys-hint { display: none; }
     #station-picker { top: 60px; }
     .station-card { min-width: 100px; padding: 8px 10px; }
