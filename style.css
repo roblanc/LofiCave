@@ -184,9 +184,9 @@ body {
 
 #hud {
     position: fixed;
-    bottom: 20px;
+    top: 50%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, -50%);
     z-index: 50;
     display: flex;
     flex-direction: column;
@@ -281,10 +281,12 @@ body {
 
 #keys-hint {
     position: fixed;
-    bottom: 8px;
-    right: 16px;
+    bottom: 14px;
+    left: 50%;
+    transform: translateX(-50%);
     z-index: 50;
     font-size: 1.05rem;
+    font-style: italic;
     opacity: .45;
     text-shadow: 1px 1px 0 #000;
     white-space: nowrap;
@@ -294,7 +296,7 @@ body {
 
 @media (max-width: 640px) {
     #channel-name .desc { display: none; }
-    #hud { bottom: 14px; left: 50%; }
+    #hud { top: 50%; left: 50%; }
     #hud button { font-size: 1.1rem; }
     #vol-segs { font-size: 1.1rem; }
     #nowline { font-size: 1.05rem; gap: 6px; }
