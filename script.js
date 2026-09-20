@@ -82,7 +82,7 @@ function pauseAudio() {
 }
 
 function togglePlay() {
-    if (!started) return;
+    if (!started) { started = true; loadStation(currentIndex, true); return; }
     if (audio.paused) playAudio();
     else pauseAudio();
 }
@@ -327,7 +327,20 @@ function kickstart(e) {
         e.target.closest("button, #vol-segs");
     loadStation(currentIndex, !onControl);
 }
-window.addEventListener("pointerdown", kickstart, { once: true });
+
+function isControl(el) {
+    return el && el.closest && el.closest("button, a, #vol-segs, #station-picker");
+}
+
+/* tap anywhere on the background: first tap starts audio (browser policy),
+   every tap after that toggles the stream — tap to stop, tap again to
+   resume. taps on controls (play/volume/stations) keep working normally. */
+function handleTap(e) {
+    if (isControl(e.target)) return;
+    if (!started) { kickstart(e); return; }
+    togglePlay();
+}
+window.addEventListener("click", handleTap);
 
 $("play-btn").addEventListener("click", togglePlay);
 $("next-btn").addEventListener("click", () => loadStation(currentIndex + 1, true));
