@@ -4,7 +4,7 @@
    gpt      -> SomaFM Lush (mellow)
    deepseek -> SomaFM Deep Space One (deep ambient)
    gemini   -> SomaFM Drone Zone (ambient drones)
-   kimi     -> SomaFM Metaphysical (mystic ambient) */
+   kimi     -> SomaFM Synphaera (mystic ambient) */
 const stations = [
     { id: "grok",     name: "grok fm",        emoji: "🚀", desc: "synthwave to understand the universe", stream: "https://stream.nightride.fm/nightride.mp3",
       theme: { sky: ["#1a0533", "#3b0f54"], star: "#ff9ad9", glow: "#b14bff" } },
@@ -16,7 +16,7 @@ const stations = [
       theme: { sky: ["#040a24", "#0d2058"], star: "#d8e9ff", glow: "#5b8cff" } },
     { id: "gemini",   name: "gemini grooves", emoji: "⭐", desc: "ambient drift & stargazing", stream: "https://ice1.somafm.com/dronezone-128-mp3",
       theme: { sky: ["#150826", "#33205e"], star: "#f6ecff", glow: "#a78bfa" } },
-    { id: "kimi",     name: "kimi radio",   emoji: "🍄", desc: "mystic beats & a glowing forest", stream: "https://ice1.somafm.com/metaphysical-128-mp3",
+    { id: "kimi",     name: "kimi radio",   emoji: "🍄", desc: "mystic beats & a glowing forest", stream: "https://ice1.somafm.com/synphaera-128-mp3",
       theme: { sky: ["#02100c", "#0e3524"], star: "#eaffdc", glow: "#57e6a0" } },
 ];
 
