@@ -335,13 +335,17 @@ function isControl(el) {
     return el && el.closest && el.closest("button, a, #vol-segs, #station-picker");
 }
 
-/* tap anywhere on the background: first tap starts audio (browser policy),
-   every tap after that toggles the stream — tap to stop, tap again to
-   resume. taps on controls (play/volume/stations) keep working normally. */
+/* tap the background: left = previous station, right = next station,
+   center = toggle the stream (stop/resume). first tap starts audio
+   (browser policy). taps on controls keep working normally. */
 function handleTap(e) {
     if (isControl(e.target)) return;
     if (!started) { kickstart(e); return; }
-    togglePlay();
+    const x = e.clientX;
+    const w = window.innerWidth;
+    if (x < w * 0.4) loadStation(currentIndex - 1, true);
+    else if (x > w * 0.6) loadStation(currentIndex + 1, true);
+    else togglePlay();
 }
 window.addEventListener("click", handleTap);
 
